@@ -1,0 +1,135 @@
+@charset "utf-8"; /*
+	v1.0 | 2017-02-06 
+	스타일 초기화
+	limssong
+*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, textarea {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    -webkit-text-size-adjust: none;
+    vertical-align: baseline;
+}
+
+textarea {
+    resize: none;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+ol, ul, li {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img, select, input {
+    vertical-align: middle;
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, i, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+li {
+    list-style: none;
+}
+
+caption, th {
+    text-align: left;
+}
+
+caption {
+    display: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+abbr, acronym {
+    border: 0;
+    font-variant: normal;
+}
+
+input, textarea, select {
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    outline-style: none;
+    outline: none;
+}
+
+legend {
+    color: #404040;
+}
+
+strong {
+    font-weight: bold;
+}
+
+button {
+    cursor: pointer
+}
+
+label {
+    cursor: pointer;
+}
+
+hr {
+    display: none;
+}
+
+/* =float 해제
+-------------------------------------------------------------------------------------------*/
+.f_clear:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+
+.f_clear {
+    display: block;
+}
+
+/* box-sizing
+-------------------------------------------------------------------------------------------*/
+html * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

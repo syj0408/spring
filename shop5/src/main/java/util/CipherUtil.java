@@ -1,0 +1,127 @@
+package util;
+
+import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+public class CipherUtil {
+	private static byte[] randomkey;
+	private final static byte[] iv=new byte[] {
+			(byte) 0x8E, 0x12, 0x39,(byte) 0x9C,
+				 0x07, 0x72, 0x6F,(byte) 0x5A,
+			(byte) 0x8E, 0x12, 0x39, (byte) 0x9C,
+				 0x07, 0x72, 0x6F, (byte) 0x5A };
+	static Cipher cipher;
+	static{
+		try {
+			cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public static byte[] getRandomKey(String algo) throws NoSuchAlgorithmException { 
+		//keyGen : AES용 키를 생성할 수 있는 객체
+		KeyGenerator keyGen = KeyGenerator.getInstance(algo);
+		//AES 알고리즘 : 128bit ~ 192(?)bit 키로 설정이 가능
+		keyGen.init(128); // 128비트짜리 키로 생성
+		SecretKey key = keyGen.generateKey();
+		return key.getEncoded();
+	}
+	public static String encrypt(String plain) {
+		byte[] cipherMsg = new byte[1024];
+		try {
+			//암호화에 필요한 키를 생성
+			randomkey = getRandomKey("AES");
+			//key: 암호화에 필요한 키 객체.
+			Key key = new SecretKeySpec(randomkey,"AES"); //SecretKeySpec : 16진수 배열키,AES용의 키
+			//초기화 백터 객체 생성
+			AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv);
+			//Cipher.ENCRYPT_MODE:암호화
+			cipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
+			//암호화 실행
+			cipherMsg = cipher.doFinal(plain.getBytes());  //배열의형태로들어가지만 문자열형태로 만들어야함
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return byteToHex(cipherMsg).trim();
+	}
+	private static String byteToHex(byte[] cipherMsg) {  //각바이트를 hex값으로 만들어 문자열형태로 리턴  , 랜덤키 때문에 암호문이 매번 다르다. 
+		if(cipherMsg ==null) 
+			return null;
+		String str="";
+		for(byte b  :  cipherMsg) {
+			str += String.format("%02X", b);
+		}
+		return str;
+	}
+	public static String decrypt(String cipherMsg) {
+		byte[] plainMsg = new byte[1024];
+		try {
+			Key key = new SecretKeySpec(randomkey, "AES");
+			AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv);
+			//Cipher.DECRYPT_MODE: 복호화 모드  , key:암호화할때 키 , paramSpec intial객체와 같음
+			cipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
+			plainMsg = cipher.doFinal(hexToByte(cipherMsg.trim())); //hex값의 문자열
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new String(plainMsg).trim();
+	}
+	public static byte[] hexToByte(String str) { //hex값의 문자열->배열 변경해야함(이진수)
+		if(str == null) return null;
+		if(str.length() < 2) return null;
+		int len = str.length() /2;
+		byte[] buf = new byte[len];
+		for(int i=0; i<len; i++) {
+			buf[i] = (byte) Integer.parseInt(str.substring(i*2, i*2+2), 16);
+		}
+		return buf; 
+	}
+	public static String encrypt(String plain, String key) { //암호화
+		byte[] cipherMsg = new byte[1024];
+		try {
+			Key genKey = new SecretKeySpec(makeKey(key), "AES");
+			AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv);
+			cipher.init(Cipher.ENCRYPT_MODE, genKey,paramSpec);
+			cipherMsg = cipher.doFinal(plain.getBytes());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return byteToHex(cipherMsg); //바이트를 문자열형태로
+	}
+	//AES용 키의 길이 128비트  =>16바이트
+	private static byte[] makeKey(String key) {  
+		int len = key.length(); // 10
+		char ch= 'A'; //G
+		//key = abc1234567ABCDEF  =>16바이트로 만들어서 키의 길이를 맞춰줌.
+		// i=16
+		for(int i =len; i<16; i++) key += ch++;
+		System.out.println(key);
+		return key.substring(0, 16).getBytes();//바이트형배열의 형태로 전달
+	}
+	public static String decrypt(String cipher1 , String key) { //복호화
+		byte[] plainMsg = new byte[1024];
+		try {
+			Key genkey = new SecretKeySpec(makeKey(key), "AES");
+			AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv);
+			cipher.init(Cipher.DECRYPT_MODE, genkey, paramSpec); //암호화 객체
+			plainMsg = cipher.doFinal(hexToByte(cipher1.trim())); //cipher.doFinal암호화해주는객체
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new String(plainMsg).trim();
+	}
+	public static String makehash(String msg) throws Exception {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		byte[] plain = msg.getBytes();
+		byte[] hash = md.digest(plain);
+		return byteToHex(hash);
+	}
+}

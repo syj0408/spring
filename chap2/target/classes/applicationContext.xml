@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- /src/main/java/applicationContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="project" class="chap2.Project"> <!-- 객체  -->
+	<property name="srcdirs">
+	<list><value>src/</value><value>srcResource/</value></list>
+	</property>
+	<property name="bindir" value="bin/" /> <!-- bindir에 bin/에 주입 -->
+	<property name="classpath" value="src/" />
+	<property name="b" ><ref bean="runner" /></property>
+</bean>
+<bean id="runner" class="chap2.BuildRunner">
+	<property name="path" value="c:/setup/" /><!-- path에  c:/setup/이라는 값을 가진 것을 runnner에 주입 -->
+</bean>
+<bean id="write" class="chap2.WriteImpl"> <!-- chap2.WriteImpl 의 타입 articledao -->
+	<constructor-arg ><ref bean="dao" /></constructor-arg> <!-- 생성자중에 dao객체를 가진 생성자의 매개변수를 전달함constructor-arg -->
+</bean>
+<bean id="dao" class="chap2.OracleArticleDao" /><!-- chap2.OracleArticleDao이 articledao로 형변환해야함. -->
+
+</beans>

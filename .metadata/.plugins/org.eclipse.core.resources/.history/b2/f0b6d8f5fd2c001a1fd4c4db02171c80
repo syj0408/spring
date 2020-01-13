@@ -1,0 +1,92 @@
+package config;
+
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
+
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.TransactionIsolationLevel;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+public class DBConfig {
+	@Bean(destoryMethod="close")
+	public DataSource dataSource() {
+		ComboPooledDataSource ds = new ComboPooledDataSource();
+		try {
+		ds.setDriverClass("org.mariadb.jdbc.Driver");
+		ds.setJdbcUrl("jdbc:mariadb://localhost:3306/classdb");
+		ds.setUser("scott");
+		ds.setPassword("1234");
+		ds.setMaxPoolSize(20);
+		ds.setMinPoolSize(3);
+		ds.setInitialPoolSize(5);
+		ds.setAcquireIncrement(5);
+	}catch(PropertyVetoException e) {
+		e.printStackTrace();
+	}
+		return ds;
+	}
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception{
+		SqlSessionFactory bean = new SqlSessionFactory() {
+			
+			@Override
+			public SqlSession openSession(ExecutorType execType, Connection connection) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(ExecutorType execType, TransactionIsolationLevel level) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(ExecutorType execType, boolean autoCommit) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(ExecutorType execType) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(TransactionIsolationLevel level) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(Connection connection) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession(boolean autoCommit) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public SqlSession openSession() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Configuration getConfiguration() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+	}
+}

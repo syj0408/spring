@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*
+	v1.0 | 2017-02-16
+	각종 효과 모음.
+	모든 해상도에서 이 코드가 실행됨.
+	limssong
+*/
+
+
+
+.menu-wrap { -webkit-transition:all 0.5s; transition:all 0.5s; -ms-transform:translate3d(150%,0,0); -webkit-transform:translate3d(150%,0,0); transform:translate3d(150%,0,0); }
+.search-on .menu-wrap,
+.menu-on .menu-wrap { -ms-transform:translate3d(0,0,0); -webkit-transform:translate3d(0,0,0); transform:translate3d(0,0,0); }
+
+.regular-box-wrap { -webkit-transition:all 0.5s; transition:all 0.5s; -ms-transform:translate3d(150%,0,0); -webkit-transform:translate3d(150%,0,0); transform:translate3d(150%,0,0); }
+.regular-box-on .regular-box-wrap { -ms-transform:translate3d(0,0,0); -webkit-transform:translate3d(0,0,0); transform:translate3d(0,0,0); }
+
+/* main : slide */
+.img-slide-cont { -webkit-transition:all 0.5s; transition:all 0.5s; }
+.img-slide-wrap01 .img-slide-cont { -ms-transform:translate3d(0,0,0); -webkit-transform:translate3d(0,0,0); transform:translate3d(0,0,0); }
+.img-slide-wrap02 .img-slide-cont { -ms-transform:translate3d(-100%,0,0); -webkit-transform:translate3d(-100%,0,0); transform:translate3d(-100%,0,0); }
+.img-slide-wrap03 .img-slide-cont { -ms-transform:translate3d(-200%,0,0); -webkit-transform:translate3d(-200%,0,0); transform:translate3d(-200%,0,0); }

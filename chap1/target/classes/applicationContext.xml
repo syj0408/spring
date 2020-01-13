@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- /src/main/java/applicationContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="greeter" class="chap1.Greeter"> <!-- 객체이름이 greeter인  Greeter객체를 생성 -->
+	<property name="format" value="%s을 시작합니다" /> <!-- set 프로퍼티..임 -->
+</bean>
+<bean id="message" class="chap1.MessageEn" /><!--  chap1.MessageKo 객체전달  Main1에있는 클래스이름! -->
+</beans>

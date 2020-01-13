@@ -1,0 +1,66 @@
+package config;
+
+import java.util.Properties;
+
+
+
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+@Configuration	//환경 설정 클래스. xml대체하는 클래스.
+@ComponentScan(basePackages= {"controller","logic","dao","aop","websocket"})  //@ComponentScan xml에서 사용하면 => annotation형태로 바꿈. pakages에있는 내용이 들어있는곳은 객체화를시킴
+@EnableAspectJAutoProxy //AOP설정
+@EnableWebMvc //유효성검증
+public class MvcConfig implements WebMvcConfigurer{
+	// @Bean : <bean id="handlerMapping" class="..HandlerMapping" />
+	//  => HandlerMapping 클래스의 객체를 handlerMapping 이라는 이름으로 컨테이너에 저장
+	@Bean //요청정보와 Controller를 mapping  =ex>@RequestMapping("admin")
+	public HandlerMapping handlerMapping() {
+		RequestMappingHandlerMapping hm = new RequestMappingHandlerMapping();
+		hm.setOrder(0); //가장먼저 순서 지정.
+		return hm;
+	}
+	@Bean //view의 위치 지정
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver vr = new InternalResourceViewResolver();
+		vr.setPrefix("/WEB-INF/view/");
+		vr.setSuffix(".jsp");
+		return vr;
+	}
+	@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
+		ms.setBasename("message");
+		return ms;
+	}
+	@Bean	//파일업로드객체
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver mr = new CommonsMultipartResolver();
+		mr.setMaxInMemorySize(10485760);
+		mr.setMaxUploadSize(104857600);
+		return mr;
+	}
+	@Bean  //예외처리 객체
+	public SimpleMappingExceptionResolver exceptionHandler() {
+		SimpleMappingExceptionResolver ser = new SimpleMappingExceptionResolver();
+		Properties pr = new Properties();
+		pr.put("exception.CartEmptyException","exception");  //예외발생시  exception.jsp로 객체 전달.
+		pr.put("exception.LoginException","exception");
+		pr.put("exception.BoardException","exception");
+		return ser;
+	}
+}

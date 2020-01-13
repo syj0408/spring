@@ -1,0 +1,13 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="euc-kr"?>
+<decorators defaultdir="/decorator">
+	<decorator name="main" page="decorator.jsp">
+		<pattern>*.shop</pattern>
+	</decorator>
+<!-- layout ���� ���� -->
+	<excludes>
+		<pattern>/board/imgupload*</pattern>
+	</excludes>
+</decorators>

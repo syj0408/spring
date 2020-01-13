@@ -1,0 +1,63 @@
+package dao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Repository;
+
+import dao.mapper.UserMapper;
+import exception.LoginException;
+import logic.User;
+
+@Repository
+public class UserDao {
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	Map<Object,Object> param = new HashMap<Object, Object>();
+	
+	public List<User> list() {
+		return sqlSession.getMapper(UserMapper.class).select(null);
+	}
+	
+	public void userInsert(User user) {
+		sqlSession.getMapper(UserMapper.class).insert(user);
+	}
+
+	public User selectOne(String userid) {
+		param.clear();
+		param.put("userid", userid);
+//		return sqlSession.getMapper(UserMapper.class).select(param).get(0);    //로그인시 회원이아닌 아이디비밀번호 입력시 500에러 
+		List<User> list = sqlSession.getMapper(UserMapper.class).select(param);
+		if(list == null || list.isEmpty()) {
+			throw new LoginException("해당 아이디 없음.","");
+		}else {return list.get(0); }
+		}
+
+	public void update(User user) {
+		sqlSession.getMapper(UserMapper.class).update(user);
+	}
+
+	public void delete(String userid) {
+		param.clear();
+		param.put("userid", userid);
+		sqlSession.getMapper(UserMapper.class).delete(userid);
+	}
+	//배열자체도 콜렉션으로 인식.
+	public List<User> list(String[] idchks) {
+		param.clear();
+		param.put("idchks", idchks);
+		return sqlSession.getMapper(UserMapper.class).select(param);
+	}
+
+	public void update(String userid, String chgpass) {
+		param.clear();
+		param.put("userid", userid);
+		param.put("chgpass",chgpass);
+		sqlSession.getMapper(UserMapper.class)update(userid,chgpass);
+	}
+}

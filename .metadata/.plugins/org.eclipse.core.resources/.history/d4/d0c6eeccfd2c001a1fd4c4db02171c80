@@ -1,0 +1,20 @@
+package config;
+
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+public class DBConfig {
+	@Bean(destoryMethod="close")
+	public DataSource dataSource() {
+		ComboPooledDataSource ds = new ComboPooledDataSource();
+		ds.setDriverClass("org.mariadb.jdbc.Driver");
+		ds.setJdbcUrl("jdbc:mariadb://localhost:3306/classdb");
+		ds.setUser("scott");
+		ds.setPassword("1234");
+		ds.setMaxPoolSize(20);
+		ds.setMinPoolSize(3);
+		ds.setInitialPoolSize(5);
+		ds.set
+	}
+}

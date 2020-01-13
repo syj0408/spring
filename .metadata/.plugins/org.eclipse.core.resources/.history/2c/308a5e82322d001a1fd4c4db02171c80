@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>비밀번호 변경</title>
+<script type="text/javascript">
+	function(f.pass.value == ""){
+		alert("현재 비밀번호를 입력하세요");
+		f.pass.focus();
+		return false;
+	}
+	if(f.chgpass.value == ""){
+		alert("변경 비밀번호를 입력하세요");
+		f.chgpass.focus();
+		return false;
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>
